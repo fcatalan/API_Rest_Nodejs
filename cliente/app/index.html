@@ -72,35 +72,6 @@
         <script src="scripts/controllers/login.js"></script>
         <script src="scripts/services/loginServices.js"></script>
         <!-- endbuild -->
-
-        <script type="text/javascript">
-          function send(row, col){
-    var urlTweet = 'http://localhost:8080/usuario/';
-
-    $.ajax({ url: urlTweet, type: 'GET', dataType: "json", 
-    success: function(resultData) {
-        document.getElementById("txt-resultado").innerHTML = resultData;
-    },
-    error: function(xhr, status, error){
-        console.log(xhr);
-        console.log(status);
-        console.log(error);
-        console.log('Error send request');
-    }
-  });
-}
-
-$(document).ready(function(){
-    $('#btn-send').click(function (event) {
-        
-        send(1, 2)
-    });
-});
-
-        </script>
-
-<button id="btn-send">ej</button>
-<input type="text" id="txt-resultado" name="">
 </body>
 
 </html>

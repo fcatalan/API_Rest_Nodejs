@@ -1,16 +1,16 @@
 var express         = require("express"),
-	bodyParser   	= require('body-parser'),
-    app             = express();
-    
+    app             = express(),
+    bodyParser      = require("body-parser"),
+    methodOverride  = require("method-override"),
+    mongoose        = require('mongoose');
 
-
-
-// Example Route
-var router = express.Router();
-router.get('/', function(req, res) {
-  res.send("Hello world!");
+/*
+// Connection to DB
+mongoose.connect('mongodb://localhost/sistemaDistribuido', function(err, res) {
+  if(err) throw err;
+  console.log('Connected to Database');
 });
-app.use(router);
+*/
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -18,24 +18,25 @@ app.use(function(req, res, next) {
   next();
 });
 
+
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(methodOverride());
+
+
+var modelUsuario     = require('./models/usuarioModel')(app, mongoose);
+var modelProducto    = require('./models/productoModel')(app, mongoose);
+
+var usuarioCtrl = require('./controllers/usuarioController');
+var productoCtrl = require('./controllers/productoController');
+
+var usuario = express.Router();
 
 
 
-app.post('/profile', function (req, res, next) {
-  console.log(req.body);
-  res.json(req.body);
-});
-
-app.get('/usuario/', function(req, res, next) {
-  //res.send(JSON.stringify({ email: req.params.email }));
-	res.json({email: "aaa@aaa.cl"});
-});
-
-app.post('/', function(req, res, next) {
- // Handle the post for this route
-});
+usuario.route('/usuario')
+  .get(usuarioCtrl.findUsuario);
+app.use(usuario);
 
 
 app.get('/usuario2/:email/:pass', function (req, res, next) {
@@ -43,15 +44,6 @@ app.get('/usuario2/:email/:pass', function (req, res, next) {
 	//res.send(JSON.stringify({ email: req.params.email }));
 	res.json({email: req.params.email});
 });
-/*
-app.get('/usuario/', function (req, res) {
-	
-	//res.send(JSON.stringify({ email: req.params.email }));
-	res.json({email: "aaa@aaa.cl"});
-});
-
-*/
-
 
 
 // Start server

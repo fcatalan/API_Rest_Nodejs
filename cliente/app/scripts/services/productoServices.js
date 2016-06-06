@@ -5,6 +5,12 @@ angular.module('apiRestNodejsApp')
   
   this.agregar = function (producto) {
     
+		var request = $http({
+                    method: "post",
+                    url: "http://localhost:8080/profile",
+                    data: usuario                    
+                });
+	
   };
 
   this.actualizar = function(producto){
