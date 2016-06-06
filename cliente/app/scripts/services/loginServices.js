@@ -30,12 +30,7 @@ angular.module('apiRestNodejsApp')
 		var request = $http({
                     method: "post",
                     url: "http://localhost:8080/profile",
-                    data: usuario
-                    /*{
-                        id: 4,
-                        name: "Kim",
-                        status: "Best Friend"
-                    }*/
+                    data: usuario                    
                 });
 	};
 
