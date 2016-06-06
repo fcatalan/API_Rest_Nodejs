@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="form-horizontal">
+    <div class="form-group">      
+      <div class="col-lg-6">
+          <div class="input-group">
+            <input type="text" ng-model="Usuario.rut" class="form-control" placeholder="Rut">
+            <span class="input-group-btn">
+              <button class="btn btn-default" ng-click="Usuario.buscar()" type="button">Buscar</button>
+            </span>
+          </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+      <label for="txtEmail" class="col-sm-2 control-label">Email</label>
+      <div class="col-sm-10">
+        <input type="email" ng-model="Usuario.email" class="form-control" id="txtEmail" placeholder="Email">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="txtPass" class="col-sm-2 control-label">Contraseña</label>
+      <div class="col-sm-10">
+        <input type="password" ng-model="Usuario.pass" class="form-control" id="txtPass" placeholder="Password">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="txtNombre" class="col-sm-2 control-label">Nombre</label>
+      <div class="col-sm-10">
+        <input type="text" ng-model="Usuario.nombre" class="form-control" id="txtNombre" placeholder="Nombre">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="txtApellidoP" class="col-sm-2 control-label">Apellido Paterno</label>
+      <div class="col-sm-10">
+        <input type="text" ng-model="Usuario.apellidoP" class="form-control" id="txtApellidoP" placeholder="Apellido Paterno">
+      </div>
+    <div class="form-group">
+    <label for="lblApeliidoM" class="col-sm-2 control-label">Apellido Paterno</label>
+    <div class="col-sm-10">
+      <input type="text" ng-model="Usuario.apellidoM" class="form-control" id="lblApeliidoM" placeholder="Apellido Materno ">
+    </div>
+  </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button class="btn btn-default" ng-click="Usuario.actualizar()" >Actualizar</button>
+      </div>
+    </div>
+  </div>
+</div>

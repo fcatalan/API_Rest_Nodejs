@@ -1,0 +1,31 @@
+<div class="form-horizontal" >
+  <div class="form-group">
+    <label for="txtNombre" class="col-sm-2 control-label">Nombre</label>
+    <div class="col-sm-10">
+      <input type="text" ng-model="Producto.nombre" class="form-control" id="txtNombre" placeholder="Nombre">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="txtCodigo" class="col-sm-2 control-label">Codigo</label>
+    <div class="col-sm-10">
+      <input type="text" ng-model="Producto.codigo" class="form-control" id="txtCodigo" placeholder="Codigo">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="txtCantidad" class="col-sm-2 control-label">Cantidad</label>
+    <div class="col-sm-10">
+      <input type="text" ng-model="Producto.cantidad" class="form-control" id="txtCantidad" placeholder="Cantidad">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="txtPrecioUnitario" class="col-sm-2 control-label">Precio Unitario</label>
+    <div class="col-sm-10">
+      <input type="text" ng-model="Producto.precioUnitario" class="form-control" id="txtPrecioUnitario" placeholder="Precio Unitario">
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button ng-click="Producto.agregar()" class="btn btn-default">Agregar</button>
+    </div>
+  </div>
+</div>
