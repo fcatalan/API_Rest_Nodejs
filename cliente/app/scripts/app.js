@@ -24,16 +24,20 @@ angular
         controller: 'LoginCtrl'
       })
       .when('/agregarUsuario', {
-        templateUrl: 'views/agregarUsuario.html'
+        templateUrl: 'views/agregarUsuario.html',
+        controller: 'UsuarioCtrl'
       })
       .when('/actualizarUsuario', {
-        templateUrl: 'views/actualizarUsuario.html'
+        templateUrl: 'views/actualizarUsuario.html',
+        controller: 'UsuarioCtrl'
       })
       .when('/agregarProducto', {
-        templateUrl: 'views/agregarProducto.html'
+        templateUrl: 'views/agregarProducto.html',
+        controller: 'ProductoCtrl'        
       })
       .when('/actualizarProducto', {
-        templateUrl: 'views/actualizarProducto.html'
+        templateUrl: 'views/actualizarProducto.html',
+        controller: 'ProductoCtrl'  
       })
       .otherwise({
         redirectTo: '/'

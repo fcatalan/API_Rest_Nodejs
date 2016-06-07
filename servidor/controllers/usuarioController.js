@@ -1,17 +1,49 @@
+	/*var usuarioSchema = new mongoose.Schema({
+		email: 			{ type: String },
+		pass: 			{ type: String },
+		rut: 			{ type: Number },
+		apellidoP:  	{ type: String },
+		apellidoM:  	{ type: String }
+	});*/
+
+
+
 //File: controllers/usuarioController.js
 var mongoose = require('mongoose');
-var UsuarioModel  = mongoose.model('UsuarioModel');
+//var UsuarioModel  = mongoose.model('usuarioModel');
+
+mongoose.connect('mongodb://localhost/sistemaDistribuido', function(err, res) {
+  if(err) throw err;
+  console.log('Connected to Database');
+});
+
+
+mongoose.model('usuarioModel', {email: String, pass: String, rut: Number, apellidoP: String, apellidoM: String });
 
 //GET - Return todos los usuario en la DB
 exports.findAllUsuario = function(req, res) {
-	UsuarioModel.find(function(err, usuarioModel) {
+
+mongoose.model('usuarioModel').find(function(err, usuarios){
+	console.log(usuarios.email);
+	console.log(err);
+	res.json(usuarios);
+});
+
+
+
+/*
+	UsuarioModel.find(function(err, usuarios) {
     if(err) res.send(500, err.message);
 
-    console.log('GET /usuarios')
-		res.status(200).jsonp(usuarioModel);
-	});
-};
+    console.log('GET /usuarios');
+    console.log(usuarioModel.email);
 
+		res.status(200).json(usuarios);
+
+	});
+	*/
+};
+/*
 //GET - Return un  usuario
 exports.findById = function(req, res) {
 	UsuarioModel.findById(req.params.id, function(err, usuarioModel) {
@@ -74,3 +106,5 @@ exports.findUsuario = function(req, res) {
 	console.log("usuarioController");
 	res.json({email: "desdeElModulo@aaa.cl"});
 };
+
+*/
