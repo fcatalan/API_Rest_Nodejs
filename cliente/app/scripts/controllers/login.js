@@ -8,28 +8,38 @@
  * Controller of the apiRestNodejsApp
  */
 angular.module('apiRestNodejsApp')
-  .controller('LoginCtrl', function ($scope, LoginService) {
+  .controller('LoginCtrl', function ($scope, LoginService, $http) {
   	$scope.Usuario = 
   	{ 
-      email: "hhhhkkk@aaa.cl", 
-    	pass: "kkkkk",
-
     	iniciarSesion: function(){
-    		if(LoginService.consultarUsuaio($scope.Usuario))
-    		{
+    	 /*	if(LoginService.consultarUsuaio($scope.Usuario))
+    	 	{
     			console.log("conecto");
     		}
+        */
+
+        console.log('http://localhost:8080/loginUsuario/' + $scope.Usuario.email + "/" +$scope.Usuario.pass)
+
+       $http({
+        method:'GET',       
+        url:'http://localhost:8080/loginUsuario/' + $scope.Usuario.email + "/" +$scope.Usuario.pass
+       })
+       .success(function(data){
+        
+        if(data != null){
+
+          console.log(data.email);
+          window.location.href = "#/agregarUsuario";
+        }else{
+          $scope.Usuario.mensaje = "El usuario o contraseña son invalidas";
+        }
+       })
+       .error(function(data){
+         console.log("Problemas con el servidor");
+            $scope.Usuario.mensaje = "Problemas con el servidor";
+       });
+
       },
-
-      ej: function(){
-
-        var a =  LoginService.consultarUsuaio($scope.Usuario);        
-      },
-
-      ejOst: function(){
-        LoginService.ejOst($scope.Usuario);
-      }
-
   };
   
  });

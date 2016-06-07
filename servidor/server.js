@@ -2,6 +2,7 @@ var express         = require("express"),
     app             = express(),
     bodyParser      = require("body-parser"),
     methodOverride  = require("method-override"),
+    cors            = require('cors'),
     mongoose        = require('mongoose');
 
 /*
@@ -12,12 +13,15 @@ mongoose.connect('mongodb://localhost/sistemaDistribuido', function(err, res) {
 });
 */
 
+
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
+  res.header('Access-Control-Allow-Headers', 'Content-Type,X-Requested-With');
+    next();
 });
 
+app.use(cors());
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(methodOverride());
@@ -25,7 +29,8 @@ app.use(methodOverride());
 mongoose.connect('mongodb://localhost/sistemaDistribuido');
 
 var usuarioModel = mongoose.model('usuarioModel', 
-                                                  {email: String, 
+                                                  {email: String,
+                                                   nombre: String, 
                                                    pass: String,
                                                    rut: String, 
                                                    apellidoP: String, 
@@ -49,6 +54,7 @@ app.post('/agregarUsuario', function (req, res, next) {
 
   var usuario = new usuarioModel({
     email:         req.body.email,
+    nombre:      req.body.nombre,
     pass:        req.body.pass,
     rut:         req.body.rut,
     apellidoP:     req.body.apellidoP,
@@ -122,48 +128,70 @@ console.log("/usuarioByRut/:rut" + req.params.rut);
 
 });
 
-app.get('/actualizarUsuario/', function (req, res, next) {
-console.log("looog");
+app.get('/loginUsuario/:email/:pass', function (req, res, next) {
 
-//console.log("/actualizarUsuario/rut" + req.params.rut);
-/*
-usuarioModel.findOne({ 'rut': req.params.rut }, function(err, usuario) {
+    usuarioModel.find(function (err, usuarios) {
+    if (err) return console.error(err);
+    
+    for(var usuario in usuarios)
+    {       
+      if(usuarios[usuario].email == req.params.email && usuarios[usuario].pass == req.params.pass )
+      {
+        console.log(usuarios[usuario]);
+        res.json(usuarios[usuario]);
+      }else{
+          res.json(null);
+      }
+    }
+
+
+  }); 
+
+});
+
+
+app.put('/actualizarUsuario/', cors(), function (req, res, next) {
+
+console.log("looog");
+console.log(" usuario desde el cliente: " + req.body);
+
+usuarioModel.findOne({ 'rut': req.body.rut }, function(err, usuario) {
     usuario.email    = req.body.email;
     usuario.pass   = req.body.pass;
     usuario.rut      = req.body.rut;
     usuario.apellidoP  = req.body.apellidoP;
     usuario.apellidoM  = req.body.apellidoM;
 
-    usuario.save(function(err) {
+    usuario.save(function(err, usuario) {
       if(err) return res.send(500, err.message);
-      //res.status(200).jsonp(usuario);
+      console.log("usuario actualizado: " + usuario);
+      res.status(200).jsonp(usuario);
     });
   });
-*/
 
 });
 
+
+app.put('/actualizarProducto/', cors(), function (req, res, next) {
+
+console.log("looog");
+console.log(" producto desde el cliente: " + req.body);
+
+productoModel.findOne({ 'codigo': req.body.codigo }, function(err, producto) {
+    producto.nombre         = req.body.nombre;
+    producto.codigo         = req.body.codigo;
+    producto.cantidad       = req.body.cantidad;
+    producto.precioUnitario = req.body.precioUnitario;
+
+    producto.save(function(err) {
+      if(err) return res.send(500, err.message);
+      res.status(200).jsonp(producto);
+    });
+  });
+
+});
 
 // Start server
 app.listen(8080, function() {
   console.log("Node server running on http://localhost:8080");
 });
-
-
-//var modelUsuario     = require('./models/usuarioModel')(app, mongoose);
-//var modelProducto    = require('./models/productoModel')(app, mongoose);
-
-//var usuarioCtrl = require('./controllers/usuarioController');
-//var productoCtrl = require('./controllers/productoController');
-
-//var usuario = express.Router();
-
-
-/*
-usuario.route('/usuario')
-  .get(usuarioCtrl.findUsuario);*/
-/*
-usuario.route('/usuarios')
-  .get(usuarioCtrl.findAllUsuario);
-app.use(usuario);
-*/

@@ -13,20 +13,30 @@ angular.module('apiRestNodejsApp')
   	{ 
 
     	agregar: function(){
-    		UsuarioiService.agregar($scope.Usuario);
+    	//	UsuarioiService.agregar($scope.Usuario);
+
+          $http({
+                    method: "post",
+                    url: "http://localhost:8080/agregarUsuario",
+                    data: $scope.Usuario                    
+                }).error(function(error){
+          console.log("Problemas con el servidor");
+            $scope.Producto.mensaje = "Problemas con el servidor";
+         });;
+
       },
 
       actualizar: function(){
         //UsuarioiService.actualizar($scope.Usuario);
 
         $http({
-          method:'PUT',       
+          method:'put',       
           url:'http://localhost:8080/actualizarUsuario/',
           data: $scope.Usuario
          })
           .success(function(data){
             console.log(data.nombre + " "+ data.rut + " "+ data.email);
-                    
+          
             $scope.Usuario.rut        = data.rut;
             $scope.Usuario.email      = data.email;
             $scope.Usuario.pass       = data.pass;
@@ -37,7 +47,7 @@ angular.module('apiRestNodejsApp')
          })
          .error(function(error){
           console.log("error");
-            return false;
+            $scope.Usuario.mensaje = "Problemas con el servidor";
          });
 
       },
@@ -49,19 +59,23 @@ angular.module('apiRestNodejsApp')
           url:'http://localhost:8080/usuarioByRut/' + $scope.Usuario.rut
          })
           .success(function(data){
-            console.log(data.nombre + " "+ data.rut + " "+ data.email);
-                    
-            $scope.Usuario.rut        = data.rut;
-            $scope.Usuario.email      = data.email;
-            $scope.Usuario.pass       = data.pass;
-            $scope.Usuario.nombre     = data.nombre;
-            $scope.Usuario.apellidoP  = data.apellidoP;
-            $scope.Usuario.apellidoM  = data.apellidoM;
-        
+            if(data != null)
+            {
+                console.log(data.nombre + " "+ data.rut + " "+ data.email);
+                        
+                $scope.Usuario.rut        = data.rut;
+                $scope.Usuario.email      = data.email;
+                $scope.Usuario.pass       = data.pass;
+                $scope.Usuario.nombre     = data.nombre;
+                $scope.Usuario.apellidoP  = data.apellidoP;
+               $scope.Usuario.apellidoM  = data.apellidoM;
+            }else{
+              $scope.Usuario.mensaje = "El Usuario no se encuentra";
+            }
          })
          .error(function(error){
-          console.log("error");
-            return false;
+          console.log("Problemas con el servidor");
+            $scope.Usuario.mensaje = "Problemas con el servidor";
          });
 
       }
