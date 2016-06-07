@@ -4,10 +4,11 @@ Crear una API Rest con MongoDB, Express, AngularJS, NodeJS
 # Dependencias proyecto
 Se debe tener instalados los siguientes modulos
 
-- npm install express --save
-- npm install body-parser
-- npm install method-override
-- npm install mongoose
+- sudo npm install -g express --save
+- sudo npm install -g body-parser
+- sudo npm install -g method-override
+- sudo npm install -g mongoose
+- sudo npm install -g cors
 
 
 # Descargar dependencias de grunt

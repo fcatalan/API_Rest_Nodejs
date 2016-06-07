@@ -17,8 +17,7 @@ angular.module('apiRestNodejsApp')
     			console.log("conecto");
     		}
         */
-
-        console.log('http://localhost:8080/loginUsuario/' + $scope.Usuario.email + "/" +$scope.Usuario.pass)
+      console.log('http://localhost:8080/loginUsuario/' + $scope.Usuario.email + "/" +$scope.Usuario.pass)
 
        $http({
         method:'GET',       

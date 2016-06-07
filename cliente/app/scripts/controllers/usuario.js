@@ -46,7 +46,7 @@ angular.module('apiRestNodejsApp')
         
          })
          .error(function(error){
-          console.log("error");
+          console.log("Problemas con el servidor");
             $scope.Usuario.mensaje = "Problemas con el servidor";
          });
 
