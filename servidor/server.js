@@ -130,15 +130,32 @@ console.log("/usuarioByRut/:rut" + req.params.rut);
 
 app.get('/loginUsuario/:email/:pass', function (req, res, next) {
 
+     usuarioModel.find({email: req.params.email, pass: req.params.pass },function(err, usuario){
+
+ if (err) return handleError(err);
+    console.log(usuario[0]); // Space Ghost is a talk show host.
+    if(usuario[0] != undefined ){
+      res.json(usuario[0]);
+    }else{
+      res.json(null);
+    }
+      
+
+     });
+/*
+
     usuarioModel.find(function (err, usuarios) {
     if (err) return console.error(err);
     
     for(var usuario in usuarios)
-    {       
+    {  
+      console.log(usuarios[usuario]);     
+
       if(usuarios[usuario].email == req.params.email && usuarios[usuario].pass == req.params.pass )
       {
         console.log(usuarios[usuario]);
         res.json(usuarios[usuario]);
+        break;
       }else{
           res.json(null);
       }
@@ -146,7 +163,7 @@ app.get('/loginUsuario/:email/:pass', function (req, res, next) {
 
 
   }); 
-
+*/
 });
 
 
