@@ -8,8 +8,6 @@ Se debe tener instalados los siguientes modulos
 - npm install body-parser
 - npm install method-override
 - npm install mongoose
-- npm install -g mongojs
-- npm install -g cors
 
 
 # Descargar dependencias de grunt
