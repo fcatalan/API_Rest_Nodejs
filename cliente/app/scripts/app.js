@@ -39,6 +39,15 @@ angular
         templateUrl: 'views/actualizarProducto.html',
         controller: 'ProductoCtrl'  
       })
+      .when('/eliminarProducto', {
+        templateUrl: 'views/eliminarProducto.html',
+        controller: 'ProductoCtrl'  
+      })
+      .when('/eliminarUsuario', {
+        templateUrl: 'views/eliminarUsuario.html',
+        controller: 'ProductoCtrl'  
+      })
+
       .otherwise({
         redirectTo: '/'
       });

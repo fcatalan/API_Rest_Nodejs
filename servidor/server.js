@@ -3,7 +3,10 @@ var express         = require("express"),
     bodyParser      = require("body-parser"),
     methodOverride  = require("method-override"),
     cors            = require('cors'),
-    mongoose        = require('mongoose');
+    mongoose        = require('mongoose'),
+    http = require('http')
+    , server = http.createServer(app),
+    io = require('socket.io').listen(server);
 
 /*
 // Connection to DB
@@ -142,28 +145,6 @@ app.get('/loginUsuario/:email/:pass', function (req, res, next) {
       
 
      });
-/*
-
-    usuarioModel.find(function (err, usuarios) {
-    if (err) return console.error(err);
-    
-    for(var usuario in usuarios)
-    {  
-      console.log(usuarios[usuario]);     
-
-      if(usuarios[usuario].email == req.params.email && usuarios[usuario].pass == req.params.pass )
-      {
-        console.log(usuarios[usuario]);
-        res.json(usuarios[usuario]);
-        break;
-      }else{
-          res.json(null);
-      }
-    }
-
-
-  }); 
-*/
 });
 
 
@@ -207,6 +188,74 @@ productoModel.findOne({ 'codigo': req.body.codigo }, function(err, producto) {
   });
 
 });
+
+
+
+app.post('/eliminarProducto', function (req, res, next) {
+console.log(req.body);
+
+  productoModel.findOne({ 'codigo': req.body.codigo }, function(err, producto) {
+    console.log(producto);
+    producto.remove(function(err) {
+      if(err) return res.send(500, err.message);
+      res.status(200);    
+    })
+  });
+
+});
+
+
+app.post('/eliminarUsuario', function (req, res, next) {
+
+  usuarioModel.findOne({ 'rut': req.body.rut }, function(err, usuario) {
+    usuario.remove(function(err) {
+      if(err) return res.send(500, err.message);
+      res.status(200);    
+    })
+  });
+
+});
+
+//Path de funciones en Javascript que podrían utilizar
+app.use("/controller", express.static(__dirname + '/controller'));
+app.use("/js", express.static(__dirname + '/js'));
+
+//Routing
+app.get('/preguntas', function (req, res) {
+  res.sendfile(__dirname + '/views/index.html');
+});
+
+io.sockets.on('connection', function (socket) {
+  
+  socket.on('initRoom', function (data) {
+    console.log("Un usuario entró al chat de la sala " + data.room);
+    socket.join(data.room);
+  });
+
+  socket.on('exitRoom', function (data) {
+    console.log("Un usuario se salió del chat de la sala " + data.room);
+    socket.leave(data.room);
+  });
+
+  socket.on('disconnect', function () {
+    console.log("Usuario desconectado");
+  });
+  
+  socket.on('broadcast', function (data) {
+    console.log("Un usuario envió el mensaje: " + data.text);
+    socket.broadcast.emit('broadcastCallback', { text:data.text});
+  });
+
+  socket.on('multicast', function (data) {
+    console.log("Se envió el mensaje " + data.text + " a la sala " + data.room);
+    io.sockets.in(data.room).emit('multicastCallback', {text:data.text});
+  });
+});
+
+
+
+
+
 
 // Start server
 app.listen(8080, function() {

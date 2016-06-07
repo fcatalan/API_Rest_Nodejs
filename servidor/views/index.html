@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Consultas</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; }
+      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+    </style>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+  </head>
+  <body>
+    <ul id="messages"></ul>
+    <from id='ingreso'>
+      <input id="nombre" placeholder="Ingrese su nombre" required/>
+      <input id="email" placeholder="Ingrese su correo" type="email" required/>
+      <button id="enviar">enviar</button>
+    </from>
+    <form id="chat">
+      <input id="m" autocomplete="off" /><button id="enviar_mensaje">Enviar</button><button id="salir">Salir</button>
+
+    </form>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var room = 'Consultas';
+      var socket = io();
+      $('#mensajes').hide();
+      $('#chat').hide();
+      
+
+      $('#enviar').click(function(){
+        if($('#nombre').val()!=null && $('#email').val()!=null ){
+          $('#ingreso').hide();
+          $('#mensajes').show();
+          $('#chat').show();
+        }
+      });
+
+      $('#enviar_mensaje').click(function(){
+        socket.emit('chat message', $('#m').val());
+        $('#m').val('');
+        return false;
+      });
+
+      socket.on('chat message', function(msg){
+        var nombre = $('#nombre').val();
+        $('#messages').append($('<li>').html('<strong>'+nombre+' dice :</strong> '+msg));
+      });
+
+      $('#salir').click(function(){
+        window.location.reload();
+      });
+    </script>
+    
+  </body>
+</html>

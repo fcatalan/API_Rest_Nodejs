@@ -78,6 +78,19 @@ angular.module('apiRestNodejsApp')
             $scope.Usuario.mensaje = "Problemas con el servidor";
          });
 
+      },
+
+      eliminar: function(){
+
+         $http({
+                    method: "post",
+                    url: "http://localhost:8080/eliminarProducto",
+                    data: $scope.Usuario                    
+                }).error(function(error){
+            console.log("Problemas con el servidor");
+            $scope.Producto.mensaje = "Problemas con el servidor";
+         });;
+
       }
 
 
