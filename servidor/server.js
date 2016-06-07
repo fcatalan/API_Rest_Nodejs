@@ -122,6 +122,27 @@ console.log("/usuarioByRut/:rut" + req.params.rut);
 
 });
 
+app.get('/actualizarUsuario/', function (req, res, next) {
+console.log("looog");
+
+//console.log("/actualizarUsuario/rut" + req.params.rut);
+/*
+usuarioModel.findOne({ 'rut': req.params.rut }, function(err, usuario) {
+    usuario.email    = req.body.email;
+    usuario.pass   = req.body.pass;
+    usuario.rut      = req.body.rut;
+    usuario.apellidoP  = req.body.apellidoP;
+    usuario.apellidoM  = req.body.apellidoM;
+
+    usuario.save(function(err) {
+      if(err) return res.send(500, err.message);
+      //res.status(200).jsonp(usuario);
+    });
+  });
+*/
+
+});
+
 
 // Start server
 app.listen(8080, function() {

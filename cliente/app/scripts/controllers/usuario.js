@@ -8,7 +8,7 @@
  * Controller of the apiRestNodejsApp
  */
 angular.module('apiRestNodejsApp')
-  .controller('UsuarioCtrl', function ($scope, UsuarioiService) {
+  .controller('UsuarioCtrl', function ($scope, UsuarioiService, $http) {
   	$scope.Usuario = 
   	{ 
 
@@ -17,12 +17,56 @@ angular.module('apiRestNodejsApp')
       },
 
       actualizar: function(){
-        UsuarioiService.actualizar($scope.Usuario);
+        //UsuarioiService.actualizar($scope.Usuario);
+
+        $http({
+          method:'PUT',       
+          url:'http://localhost:8080/actualizarUsuario/',
+          data: $scope.Usuario
+         })
+          .success(function(data){
+            console.log(data.nombre + " "+ data.rut + " "+ data.email);
+                    
+            $scope.Usuario.rut        = data.rut;
+            $scope.Usuario.email      = data.email;
+            $scope.Usuario.pass       = data.pass;
+            $scope.Usuario.nombre     = data.nombre;
+            $scope.Usuario.apellidoP  = data.apellidoP;
+            $scope.Usuario.apellidoM  = data.apellidoM;
+        
+         })
+         .error(function(error){
+          console.log("error");
+            return false;
+         });
+
       },
 
       buscar: function(){
-        UsuarioiService.buscar($scope.Usuario.rut);
+        //UsuarioiService.buscar($scope.Usuario.rut);
+        $http({
+          method:'GET',       
+          url:'http://localhost:8080/usuarioByRut/' + $scope.Usuario.rut
+         })
+          .success(function(data){
+            console.log(data.nombre + " "+ data.rut + " "+ data.email);
+                    
+            $scope.Usuario.rut        = data.rut;
+            $scope.Usuario.email      = data.email;
+            $scope.Usuario.pass       = data.pass;
+            $scope.Usuario.nombre     = data.nombre;
+            $scope.Usuario.apellidoP  = data.apellidoP;
+            $scope.Usuario.apellidoM  = data.apellidoM;
+        
+         })
+         .error(function(error){
+          console.log("error");
+            return false;
+         });
+
       }
 
-  };
- });
+
+      }
+
+  });
